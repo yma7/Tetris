@@ -1,10 +1,15 @@
+import java.awt.*;
+
 public class Piece {
 
     private int[][] piece;
 
-    public Piece(int[][] shape)
+    private Color color;
+
+    public Piece(int[][] shape, int x, int y, Color c)
     {
         piece = shape;
+        color = c;
     }
 
     public int[][] getPiece()
@@ -12,9 +17,13 @@ public class Piece {
         return piece;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     public void rotate()
     {
-        // implement code and logic
+
     }
 
 }

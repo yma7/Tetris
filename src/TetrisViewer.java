@@ -2,11 +2,14 @@ import javax.swing.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 
 public class TetrisViewer extends JFrame{
+
+
     private Tetris tetris;
     private Board board;
 
@@ -15,7 +18,8 @@ public class TetrisViewer extends JFrame{
 
 
     private final int WINDOW_WIDTH = 800;
-    private final int WINDOW_HEIGHT = 500;
+    private final int WINDOW_HEIGHT = 1000;
+
 
 
     private int[][] grid;
@@ -29,7 +33,6 @@ public class TetrisViewer extends JFrame{
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setVisible(true);
         board = b;
-        grid = new int[10][10];
     }
 
     public void paint(Graphics g)
@@ -40,33 +43,39 @@ public class TetrisViewer extends JFrame{
         g.drawString("Score ", 640, 100);
         g.drawString("" + tetris.getScore() , 652, 125);
         drawBoard(g);
-        drawPiece(g, tetris.getCurrentPiece(), tetris.getCurrentX(), tetris.getCurrentY());
+        drawPiece(g, tetris.getCurrentPiece(), tetris.getCurrentX(), tetris.getCurrentY(), tetris.getPiece().getColor());
     }
 
-    public void drawBoard(Graphics g)
-    {
-        for (int i = 0; i < 10; i ++)
+    public void drawBoard(Graphics g) {
+
+        int[][] grid = board.getGrid();
+        for (int j = 0; j < 20; j++)
         {
-            for (int j = 0; j < 10; j++)
+            for (int i = 0; i < 10; i++)
             {
+                if (grid[j][i] != 0)
+                {
+                    g.setColor(board.getColor(j,i));
+                    g.fillRect(i * BOX_WIDTH, j * BOX_HEIGHT, BOX_WIDTH, BOX_HEIGHT);
+                }
                 g.setColor(Color.WHITE);
-                int x = i * BOX_WIDTH;
-                int y = j * BOX_HEIGHT;
-                g.drawRect(x,y,BOX_WIDTH,BOX_HEIGHT);
+                g.drawRect(i * BOX_WIDTH, j * BOX_HEIGHT, BOX_WIDTH, BOX_HEIGHT);
             }
         }
     }
-    private void drawPiece(Graphics g, int[][] piece, int posX, int posY)
+
+    private void drawPiece(Graphics g, int[][] piece, int posX, int posY, Color c)
     {
-        g.setColor(Color.blue);
+        Color color = c;
+        g.setColor(color);
         for (int i = 0; i < piece.length; i++)
         {
             for (int j = 0; j < piece[0].length; j++)
             {
+                int x = posX + j;
+                int y = posY + i;
                 if (piece[i][j] == 1)
                 {
-                    int x = posX + j;
-                    int y = posY + i;
                     g.fillRect(x * BOX_WIDTH, y * BOX_HEIGHT, BOX_WIDTH, BOX_HEIGHT);
                 }
             }
