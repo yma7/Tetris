@@ -9,6 +9,8 @@ import java.util.Random;
 public class Tetris implements KeyListener
 {
     private int score = 0;
+
+    private int[][] rotatedPiece;
     private Piece piece;
     private boolean isGameOver = false;
 
@@ -94,11 +96,12 @@ public class Tetris implements KeyListener
 
     public void moveDown()
     {
-        if (currentY + currentPiece.length < board.getHeight())
+        if (currentY + piece.getPiece().length < board.getHeight())
         {
             currentY++;
         }
-        else {
+        else
+        {
             board.lockPiece(piece, currentX, currentY, piece.getColor());
             generateNewPiece();
         }
@@ -115,7 +118,7 @@ public class Tetris implements KeyListener
 
     public void moveRight()
     {
-        if (currentX + currentPiece[0].length < board.getWidth())
+        if (currentX + piece.getPiece()[0].length < board.getWidth())
         {
             currentX++;
         }
@@ -155,6 +158,10 @@ public class Tetris implements KeyListener
 
     }
 
+    public void setPiece(int[][] p) {
+        this.piece = piece;
+    }
+
     public void keyPressed(KeyEvent e) {
         // The keyCode lets you know which key was pressed
         switch(e.getKeyCode())
@@ -167,6 +174,9 @@ public class Tetris implements KeyListener
                 break;
             case KeyEvent.VK_DOWN:
                 moveDown();
+                break;
+            case KeyEvent.VK_UP:
+                piece.rotateClockwise(currentPiece);
                 break;
         }
         window.repaint();

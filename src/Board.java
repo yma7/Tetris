@@ -52,7 +52,6 @@ public class Board {
                 }
             }
         }
-
     }
 
     public Color getColor(int x, int y)
